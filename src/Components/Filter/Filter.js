@@ -17,6 +17,7 @@ function Filter() {
             className={s.input}
             type="text"
             name="name"
+            placeholder="Enter name"
             value={filter}
             onChange={(e) => dispatch(filterChange(e.target.value))}
           />

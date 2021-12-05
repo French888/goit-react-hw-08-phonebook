@@ -4,6 +4,7 @@
   font-size: 24px;
   font-style: italic;
   font-weight: 700;
+  color: #0c3fe4;
 }
 
 .input {
@@ -11,13 +12,13 @@
   height: 30px;
   margin-left: 40px;
   width: 400px;
-  background-color: #e9d5cf;
+  background-color: #e1e7e9;
 }
 
 .input:hover,
 input:focus {
   box-shadow: 0 0 6px 2px rgb(28 146 224 / 50%);
-  border: 1px solid rgba(28, 146, 224, 0.678);
+  border: 1px solid rgba(10, 28, 233, 0.947);
   outline: none;
 }
 
