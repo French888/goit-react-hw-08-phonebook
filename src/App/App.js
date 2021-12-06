@@ -1,9 +1,10 @@
 import s from "./App.module.css";
-import ContactForm from "../Components/ContactForm/ContactForm";
+
 import { Route, Routes } from "react-router-dom";
-import HomeView from "../views/HomeView";
-import LoginView from "../views/LoginView";
-import RegisterView from "../views/RegisterView";
+import { Suspense } from "react";
+import HomeView from "../views/HomeView/HomeView";
+import LoginView from "../views/LoginView/LoginView";
+import RegisterView from "../views/RegisterView/RegisterView";
 import MenuAppBar from "../Components/AppBar";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
@@ -14,6 +15,9 @@ import authSelectors from "../redux/auth/auth-selectors";
 import PublicRoute from "../Components/PublicRoute";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import "bootstrap/dist/css/bootstrap.min.css";
+import Loader from "../Components/Loader/Loader";
+import { ContactsView } from "../views/ContactsView/ContactsView";
 
 function App() {
   const dispatch = useDispatch();
@@ -21,53 +25,64 @@ function App() {
   const isRefreshingCurrentUser = useSelector(
     authSelectors.getIsRefreshingCurrentUser
   );
+  const token = useSelector(authSelectors.getToken);
 
   useEffect(() => {
-    dispatch(authOperations.refreshCurrentUser());
-  }, [dispatch]);
+    token && dispatch(authOperations.refreshCurrentUser());
+  }, [dispatch, token]);
 
   return (
-    !isRefreshingCurrentUser && (
-      <div className={s.App}>
-        <MenuAppBar />
-        <Routes>
-          <Route
-            path="/"
-            element={
-              <PublicRoute isLoggedIn={isLoggedIn} component={HomeView} />
-            }
-          />
-          <Route
-            path="/register"
-            element={
-              <PublicRoute
-                isLoggedIn={isLoggedIn}
-                component={RegisterView}
-                restricted
+    <div className={s.App}>
+      {!isRefreshingCurrentUser ? (
+        <>
+          <MenuAppBar />
+          <Suspense fallback={<Loader />}>
+            <Routes>
+              <Route
+                path="/"
+                element={
+                  <PublicRoute isLoggedIn={isLoggedIn} component={HomeView} />
+                }
               />
-            }
-          />
-          <Route
-            path="/login"
-            element={
-              <PublicRoute
-                isLoggedIn={isLoggedIn}
-                component={LoginView}
-                redirectTo="/contacts"
-                restricted
+              <Route
+                path="/register"
+                element={
+                  <PublicRoute
+                    isLoggedIn={isLoggedIn}
+                    component={RegisterView}
+                    restricted
+                  />
+                }
               />
-            }
-          />
-          <Route
-            path="/contacts"
-            element={
-              <PrivateRoute isLoggedIn={isLoggedIn} component={ContactForm} />
-            }
-          />
-        </Routes>
-        <ToastContainer autoClose={3000} />
-      </div>
-    )
+              <Route
+                path="/login"
+                element={
+                  <PublicRoute
+                    isLoggedIn={isLoggedIn}
+                    component={LoginView}
+                    redirectTo="/contacts"
+                    restricted
+                  />
+                }
+              />
+              <Route
+                path="/contacts"
+                element={
+                  <PrivateRoute
+                    isLoggedIn={isLoggedIn}
+                    component={ContactsView}
+                  />
+                }
+              />
+            </Routes>
+          </Suspense>
+        </>
+      ) : (
+        <Loader />
+      )}
+
+      <ToastContainer autoClose={3000} />
+    </div>
   );
 }
 

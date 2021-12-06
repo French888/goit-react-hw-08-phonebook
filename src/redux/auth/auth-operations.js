@@ -4,9 +4,6 @@ import { toast } from "react-toastify";
 
 axios.defaults.baseURL = "https://connections-api.herokuapp.com";
 
-const BASE_USER_URL = `https://connections-api.herokuapp.com`;
-const userLogout = "/users/logout";
-
 const token = {
   set(token) {
     axios.defaults.headers.common.Authorization = `Bearer ${token}`;
@@ -24,7 +21,7 @@ const register = createAsyncThunk(
       token.set(data.token);
       return data;
     } catch (error) {
-      rejectWithValue(toast.error(`Oops! Try again please!`));
+      return rejectWithValue(toast.error(`Oops! Try again please!`));
     }
   }
 );
@@ -37,57 +34,47 @@ const logIn = createAsyncThunk(
       token.set(data.token);
       return data;
     } catch (error) {
-      rejectWithValue(toast.error(`Oops! Try again please!`));
+      return rejectWithValue(toast.error(`Oops! Try again please!`));
     }
   }
 );
 
-export const logOut = createAsyncThunk(
-  "users/logout",
-  async (_, { rejectWithValue, getState }) => {
-    const state = getState();
-    const token = state.auth.token;
-    if (!token) return;
+const logOut = createAsyncThunk(
+  "auth/logout",
+  async (_, { rejectWithValue }) => {
     try {
-      const response = await fetch(BASE_USER_URL + userLogout, {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      const data = await response.json();
-
-      return data;
-    } catch (err) {
-      console.log(err.message);
-      rejectWithValue(err.message);
+      await axios.post("/users/logout");
+      token.unset();
+    } catch (error) {
+      return rejectWithValue(error.message);
     }
   }
 );
 
 const refreshCurrentUser = createAsyncThunk(
   "auth/refresh",
-  async (_, thunkAPI, { rejectWithValue }) => {
+  async (_, thunkAPI) => {
     const state = thunkAPI.getState();
     const persistedToken = state.auth.token;
+
     if (persistedToken === null) {
       return thunkAPI.rejectWithValue();
     }
+
     token.set(persistedToken);
     try {
       const { data } = await axios.get("/users/current");
       return data;
     } catch (error) {
-      rejectWithValue(error.message);
+      return thunkAPI.rejectWithValue(error.message);
     }
   }
 );
 
-const authOperations = {
+const operations = {
   register,
-  logIn,
   logOut,
+  logIn,
   refreshCurrentUser,
 };
-
-export default authOperations;
+export default operations;

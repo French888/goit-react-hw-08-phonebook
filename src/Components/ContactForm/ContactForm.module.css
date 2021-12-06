@@ -1,6 +1,7 @@
 .title {
   text-align: center;
-  font-size: 36px;
+  font-size: 48px;
+  color: rgb(84, 189, 93);
 }
 .formWrapper {
   width: fit-content;
@@ -9,7 +10,7 @@
   margin-top: 30px;
   margin-left: auto;
   margin-right: auto;
-  border: 2px solid rgb(25, 88, 184);
+  border: 2px solid rgb(84, 189, 93);
   border-radius: 20px;
   padding: 50px;
 }
@@ -51,7 +52,7 @@ input:focus {
 .button {
   display: block;
   width: fit-content;
-  background-color: #3184dc;
+  background-color: rgb(84, 189, 93);
   border: 0.5px solid black;
   border-radius: 4px;
   height: 30px;

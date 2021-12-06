@@ -5,16 +5,8 @@ import Avatar from "@mui/material/Avatar";
 import s from "./UserMenu.module.css";
 
 const styles = {
-  container: {
-    display: "flex",
-    alignItems: "center",
-  },
   avatar: {
-    marginRight: 10,
-  },
-  name: {
-    fontWeight: 700,
-    marginRight: 12,
+    marginRight: 4,
   },
 };
 
@@ -23,13 +15,12 @@ export default function UserMenu() {
   const name = useSelector(authSelectors.getUserName);
 
   return (
-    <div style={styles.container}>
+    <div className={s.container}>
       <Avatar src="/broken-image.jpg" style={styles.avatar} />
-
-      <span style={styles.name}>Welcome, {name}</span>
+      <span className={s.name}> {name}</span>
       <button
-        className={s.btn}
         type="button"
+        className={s.btn}
         onClick={() => dispatch(authOperations.logOut())}
       >
         Log out

@@ -9,15 +9,13 @@ function Filter() {
 
   return (
     <>
-      <></>
       <div className={s.wrapper}>
         <label className={s.label}>
-          Find contacts by name
           <input
             className={s.input}
             type="text"
             name="name"
-            placeholder="Enter name"
+            placeholder="Find contact by name"
             value={filter}
             onChange={(e) => dispatch(filterChange(e.target.value))}
           />

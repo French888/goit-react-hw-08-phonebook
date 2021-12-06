@@ -4,13 +4,15 @@
   font-size: 24px;
   font-style: italic;
   font-weight: 700;
-  color: #0c3fe4;
+  color: #343539;
 }
 
 .input {
+  justify-content: center;
   margin-top: 8px;
   height: 30px;
-  margin-left: 40px;
+  margin-left: auto;
+  margin-right: auto;
   width: 400px;
   background-color: #e1e7e9;
 }
@@ -18,11 +20,11 @@
 .input:hover,
 input:focus {
   box-shadow: 0 0 6px 2px rgb(28 146 224 / 50%);
-  border: 1px solid rgba(10, 28, 233, 0.947);
+  border: 1px solid rgba(49, 49, 53, 0.947);
   outline: none;
 }
 
 .wrapper {
   display: flex;
-  flex-direction: row;
+  justify-content: center;
 }

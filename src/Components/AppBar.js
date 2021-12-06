@@ -16,7 +16,7 @@ import authSelectors from "../redux/auth/auth-selectors";
 export default function MenuAppBar() {
   const isLoggedIn = useSelector(authSelectors.getIsLoggedIn);
 
-  const [auth, setAuth] = React.useState(true);
+  const [auth] = React.useState(true);
   const [anchorEl, setAnchorEl] = React.useState(null);
 
   const handleMenu = (event) => {
@@ -29,7 +29,7 @@ export default function MenuAppBar() {
 
   return (
     <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="static">
+      <AppBar position="static" sx={{ bgcolor: "text.primary" }}>
         <Toolbar>
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
             <Navigation />
